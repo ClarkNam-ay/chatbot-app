@@ -1,6 +1,7 @@
 "use client";
 
 import { supabase } from "@/app/lib/supabase";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -147,15 +148,17 @@ export default function Login() {
         }
 
         .logo-mark {
-          width: 42px;
-          height: 42px;
-          border-radius: 12px;
-          background: var(--accent-dim);
-          border: 1px solid rgba(201,169,110,0.2);
+          width: 64px;
+          height: 64px;
           display: grid;
           place-items: center;
           margin-bottom: 18px;
-          color: var(--accent);
+        }
+
+        .logo-image {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
         }
 
         .card-title {
@@ -339,9 +342,14 @@ export default function Login() {
         <div className="card">
           <div className="card-header">
             <div className="logo-mark">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M10 2C5.82 2 2 5.6 2 10c0 1.65.5 3.18 1.35 4.46L2 18l3.72-1.27A8.12 8.12 0 0010 18c4.18 0 8-3.6 8-8s-3.82-8-8-8z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-              </svg>
+              <Image
+                className="logo-image"
+                src="/neura-clark-logo.png"
+                alt="NeuraClark logo"
+                width={64}
+                height={64}
+                priority
+              />
             </div>
             <h1 className="card-title">Welcome <em>back</em></h1>
             {/* <p className="card-sub">

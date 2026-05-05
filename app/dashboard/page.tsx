@@ -2,6 +2,7 @@
 
 import { supabase } from "@/app/lib/supabase";
 import type { User } from "@supabase/supabase-js";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
@@ -55,6 +56,9 @@ interface ChatMessageRow {
   content: string;
   created_at: string;
 }
+
+const NEURA_CLARK_LOGO_SRC = "/neura-clark-logo.png";
+const NEURA_CLARK_WORDMARK_SRC = "/neura-clark-white.png";
 
 function getUserDisplayName(user: User | null) {
   const metadataName =
@@ -664,21 +668,18 @@ export default function Dashboard() {
         }
 
         .sidebar-header {
-          padding: 20px 16px 14px;
+          padding: 14px 16px 12px;
           border-bottom: 1px solid var(--border);
           display: flex;
           align-items: center;
-          gap: 10px;
         }
-        .brand {
-          font-family: 'Instrument Serif', serif;
-          font-size: 18px;
-          letter-spacing: 0.01em;
-          color: var(--text);
-          flex: 1;
-          white-space: nowrap;
+
+        .brand-logo {
+          width: 184px;
+          height: 58px;
+          object-fit: cover;
+          object-position: center;
         }
-        .brand span { color: var(--accent); font-style: italic; }
 
         .new-chat-btn {
           display: flex;
@@ -1005,15 +1006,17 @@ export default function Dashboard() {
           padding: 40px;
         }
         .empty-icon {
-          width: 52px;
-          height: 52px;
-          border-radius: 16px;
-          background: var(--accent-dim);
-          border: 1px solid rgba(201,169,110,0.2);
+          width: 64px;
+          height: 64px;
           display: grid;
           place-items: center;
           margin-bottom: 20px;
-          color: var(--accent);
+        }
+
+        .empty-logo {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
         }
         .empty-state h2 {
           font-family: 'Instrument Serif', serif;
@@ -1055,6 +1058,7 @@ export default function Dashboard() {
           font-size: 11px;
           font-weight: 600;
           margin-top: 2px;
+          overflow: hidden;
         }
         .avatar.user-avatar {
           background: var(--accent-dim);
@@ -1062,9 +1066,16 @@ export default function Dashboard() {
           color: var(--accent);
         }
         .avatar.assistant-avatar {
-          background: var(--surface-2);
-          border: 1px solid var(--border);
-          color: var(--text-muted);
+          background: #050505;
+          border: 1px solid rgba(201,169,110,0.28);
+          padding: 2px;
+        }
+
+        .assistant-logo {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
         }
 
         .bubble {
@@ -1301,9 +1312,14 @@ export default function Dashboard() {
         {/* Sidebar */}
         <aside className={`sidebar ${sidebarOpen ? "" : "closed"}`}>
           <div className="sidebar-header">
-            <span className="brand">
-              conv<span>ai</span>
-            </span>
+            <Image
+              className="brand-logo"
+              src={NEURA_CLARK_WORDMARK_SRC}
+              alt="NeuraClark"
+              width={184}
+              height={58}
+              priority
+            />
           </div>
 
           <button className="new-chat-btn" onClick={createNewSession}>
@@ -1547,15 +1563,14 @@ export default function Dashboard() {
             !isLoading ? (
               <div className="empty-state">
                 <div className="empty-icon">
-                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                    <path
-                      d="M11 2C6.03 2 2 5.81 2 10.5c0 1.8.56 3.47 1.52 4.86L2 20l4.97-1.38A9.4 9.4 0 0011 19c4.97 0 9-3.81 9-8.5S15.97 2 11 2z"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  <Image
+                    className="empty-logo"
+                    src={NEURA_CLARK_LOGO_SRC}
+                    alt="NeuraClark assistant"
+                    width={64}
+                    height={64}
+                    priority
+                  />
                 </div>
                 <h2>Start a conversation</h2>
                 <p>
@@ -1582,7 +1597,13 @@ export default function Dashboard() {
                           profileInitial
                         )
                       ) : (
-                        "AI"
+                        <Image
+                          className="assistant-logo"
+                          src={NEURA_CLARK_LOGO_SRC}
+                          alt="NeuraClark assistant"
+                          width={28}
+                          height={28}
+                        />
                       )}
                     </div>
                     <div className="bubble">
@@ -1593,7 +1614,15 @@ export default function Dashboard() {
 
                 {isLoading && (
                   <div className="typing-row">
-                    <div className="avatar assistant-avatar">AI</div>
+                    <div className="avatar assistant-avatar">
+                      <Image
+                        className="assistant-logo"
+                        src={NEURA_CLARK_LOGO_SRC}
+                        alt="NeuraClark assistant"
+                        width={28}
+                        height={28}
+                      />
+                    </div>
                     <div className="typing-dots">
                       <span />
                       <span />
